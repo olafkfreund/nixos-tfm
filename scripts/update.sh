@@ -19,6 +19,8 @@ sri() {
     cut -d' ' -f1 | xargs nix hash convert --hash-algo sha256 --to sri
 }
 
-jq -n --arg v "$version" --arg x "$(sri x86_64)" --arg a "$(sri aarch64)" \
+x=$(sri x86_64)
+a=$(sri aarch64)
+jq -n --arg v "$version" --arg x "$x" --arg a "$a" \
   '{version: $v, hashes: {"x86_64-linux": $x, "aarch64-linux": $a}}' >sources.json
 echo "tfm $current -> $version"
